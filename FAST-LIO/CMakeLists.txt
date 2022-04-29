@@ -85,5 +85,42 @@ catkin_package(
 )
 
 add_executable(fastlio_mapping src/laserMapping.cpp include/ikd-Tree/ikd_Tree.cpp src/preprocess.cpp)
+add_dependencies(fastlio_mapping ${fastlio_mapping_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(fastlio_mapping ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${PYTHON_LIBRARIES})
 target_include_directories(fastlio_mapping PRIVATE ${PYTHON_INCLUDE_DIRS})
+
+install(TARGETS
+        # test_frame_node
+        fastlio_mapping
+        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+        )
+
+## Mark cpp header files for installation
+install(DIRECTORY
+        include/
+        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+        FILES_MATCHING PATTERN "*.h"
+        PATTERN ".svn" EXCLUDE
+        )
+        
+## Mark other directories for installation:
+install(DIRECTORY
+        launch/
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+        FILES_MATCHING PATTERN "*.launch"
+        )
+install(DIRECTORY
+        config/
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config
+        FILES_MATCHING PATTERN "*.yaml"
+        )
+        install(DIRECTORY
+        config/
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config
+        FILES_MATCHING PATTERN "*.urdf"
+        )
+install(DIRECTORY
+        rviz_cfg/
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/rviz_cfg
+        FILES_MATCHING PATTERN "*.rviz"
+        )
